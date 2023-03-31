@@ -1,0 +1,38 @@
+<!--
+ * dependencies.props
+ * 
+ *   Created: 2023-03-18-03:56:20
+ *   Modified: 2023-03-27-06:42:12
+ * 
+ *   Author: David G. Moore, Jr. <david@dgmjr.io>
+ *   
+ *   Copyright © 2022 - 2023 David G. Moore, Jr., All Rights Reserved
+ *      License: MIT (https://opensource.org/licenses/MIT)
+-->
+
+
+<Project>
+  <PropertyGroup Label="SDK Versions">
+    <NetStandardTargetVersion21>netstandard2.1</NetStandardTargetVersion21>
+    <NetStandardTargetVersion20>netstandard2.0</NetStandardTargetVersion20>
+    <NetCoreTargetVersion>net6.0</NetCoreTargetVersion>
+    <LangVersion>preview</LangVersion>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <IncludeDebugSymbolsProjectOutputGroup>true</IncludeDebugSymbolsProjectOutputGroup>
+    <IncludeBuiltProjectOutputGroup>true</IncludeBuiltProjectOutputGroup>
+    <IncludeContentFilesProjectOutputGroup>true</IncludeContentFilesProjectOutputGroup>
+   <IncludeCopyLocalFilesOutputGroup>true</IncludeCopyLocalFilesOutputGroup>
+  <IncludeSourceFilesProjectOutputGroup>true</IncludeSourceFilesProjectOutputGroup>
+  </PropertyGroup>
+
+  <PropertyGroup Label="AspNetCore.Hashids Versions">
+    <VersionSuffix>-DgmjrMods</VersionSuffix>
+    <AspNetCoreHashids>2.0.0$(VersionSuffix)</AspNetCoreHashids>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package Dependencies">
+    <AspNetCoreVersion>6.0.0</AspNetCoreVersion>
+    <MicrosoftSourceLinkGithub>1.1.1</MicrosoftSourceLinkGithub>
+  </PropertyGroup>
+  
+</Project>

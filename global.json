@@ -1,0 +1,13 @@
+{
+  "projects": [
+    "src",
+    "tests",
+    "samples"
+  ],
+  "sdk": {
+    "version": "7.0.101"
+  },
+  "msbuild-sdks": {
+    "NuGetPush": "0.0.4"
+  }
+}
