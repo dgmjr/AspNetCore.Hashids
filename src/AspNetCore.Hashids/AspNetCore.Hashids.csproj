@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+    <!-- <TargetFramework>$(NetCoreTargetVersion)</TargetFramework> -->
+    <TargetFrameworks>$(TargetLibraryFrameworks)</TargetFrameworks>
     <PackageLicenseUrl>$(PackageLicenseUrl)</PackageLicenseUrl>
     <PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
     <Description>Not predictable ids library for ASP.NET Core APIs. For more information see http://github.com/Xabaril/AspNetCore.Hashids </Description>
@@ -18,8 +19,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" Condition="!$(IsTargetingNetStandard)" />
     <PackageReference Include="Hashids.net" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.1.1" Condition="$(IsTargetingNetStandard)" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.1.38" Condition="$(IsTargetingNetStandard)" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" Condition="$(IsTargetingNetStandard)" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.1.21" Condition="$(IsTargetingNetStandard)" />
+    <PackageReference Include="System.Text.Json" Version="8.0.0" Condition="$(IsTargetingNetStandard)" />
   </ItemGroup>
 
 </Project>

@@ -6,25 +6,19 @@ using System;
 
 namespace AspNetCore.Hashids.Options
 {
-    public class ConfigureJsonOptions : IConfigureOptions<JsonOptions>
+    public class ConfigureJsonOptions(
+        IHttpContextAccessor httpContextAccessor,
+        IServiceProvider serviceProvider
+    ) : IConfigureOptions<JsonOptions>
     {
-        private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly IServiceProvider serviceProvider;
-
-        public ConfigureJsonOptions(
-            IHttpContextAccessor httpContextAccessor,
-            IServiceProvider serviceProvider)
-        {
-            this.httpContextAccessor = httpContextAccessor;
-            this.serviceProvider = serviceProvider;
-        }
+        private readonly IHttpContextAccessor httpContextAccessor = httpContextAccessor;
+        private readonly IServiceProvider serviceProvider = serviceProvider;
 
         public void Configure(JsonOptions options)
         {
             options.JsonSerializerOptions.Converters.Add(
-                new DependencyInjectionJsonConverter(
-                    httpContextAccessor,
-                    serviceProvider));
+                new DependencyInjectionJsonConverter(httpContextAccessor, serviceProvider)
+            );
         }
     }
 }

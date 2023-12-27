@@ -11,6 +11,10 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AspNetCoreHashids>2.0.1-DgmjrMods</AspNetCoreHashids>
+    <TargetLibraryFrameworks>netstandard2.0;netstandard2.1;net6.0;net8.0</TargetLibraryFrameworks>
+    <IsTargetingNetStandard>$(TargetFramework.Contains('netstandard'))</IsTargetingNetStandard>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
