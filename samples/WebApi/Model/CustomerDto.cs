@@ -6,7 +6,8 @@ namespace WebApi.Model
     public class CustomerDto
     {
         [JsonConverter(typeof(HashidsJsonConverter))]
-        public int Id { get; set; }        
+        public int Id { get; set; }
+
         [JsonConverter(typeof(NullableHashidsJsonConverter))]
         public int? NullableId { get; set; }
         public int NonHashid { get; set; }

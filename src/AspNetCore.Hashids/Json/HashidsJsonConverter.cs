@@ -9,15 +9,24 @@ namespace AspNetCore.Hashids.Json
 {
     public class HashidsJsonConverter : JsonConverter<int>
     {
-        public override int Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override bool CanConvert(Type typeToConvert)
+        {
+            return typeToConvert == typeof(int) || typeToConvert == typeof(int?) || typeToConvert == typeof(Guid) || typeToConvert == typeof(Guid?) || typeToConvert == typeof(string);
+        }
+
+        public override int Read(
+            ref Utf8JsonReader reader,
+            Type typeToConvert,
+            JsonSerializerOptions options
+        )
         {
             if (reader.TokenType == JsonTokenType.String)
             {
                 var stringValue = reader.GetString();
 
-                var hashid = GetHashids(options)
-                    .Decode(stringValue);
-                
+                var guidValue = Guid.TryParse(stringValue, out var guid) && GetHashIdOptions(options).AcceptNonHashedIds ? guid : Guid.Empty;
+
+                var hashid = GetHashids(options).Decode(stringValue);
 
                 if (hashid.Length == 0)
                 {
@@ -28,23 +37,22 @@ namespace AspNetCore.Hashids.Json
             }
             else if (reader.TokenType == JsonTokenType.Number)
             {
-                if ( GetHashIdOptions(options).AcceptNonHashedIds)
+                if (GetHashIdOptions(options).AcceptNonHashedIds)
                 {
                     return reader.GetInt32();
                 }
 
-                throw new JsonException(@$"Element is decorated with {nameof(HashidsJsonConverter)} 
-but is reading a non hashed id. To allow deserialize numbers set AcceptNonHashedIds to true.");
+                throw new JsonException(
+                    $"Element is decorated with {nameof(HashidsJsonConverter)} but is reading a non hashed id. To allow deserialize numbers set AcceptNonHashedIds to true."
+                );
             }
 
             throw new JsonException();
         }
 
-
         public override void Write(Utf8JsonWriter writer, int value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(
-                GetHashids(options).Encode(value));
+            writer.WriteStringValue(GetHashids(options).Encode(value));
         }
 
         private IHashids GetHashids(JsonSerializerOptions options)

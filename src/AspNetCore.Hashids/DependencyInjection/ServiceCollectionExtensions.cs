@@ -15,7 +15,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection"/></param>
         /// <param name="setup">The action used to configure <see cref="Hashids"/></param>
         /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chanined.</returns>
-        public static IServiceCollection AddHashids(this IServiceCollection services, Action<HashidsOptions> setup)
+        public static IServiceCollection AddHashids(
+            this IServiceCollection services,
+            Action<HashidsOptions> setup
+        )
         {
             services.Configure(setup);
             services.AddHttpContextAccessor();
@@ -24,13 +27,15 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IHashids>(sp =>
             {
                 var options = sp.GetRequiredService<HashidsOptions>();
-                return new Hashids(options.Salt, options.MinHashLength, options.Alphabet, options.Steps);
+                return new Hashids(
+                    options.Salt,
+                    options.MinHashLength,
+                    options.Alphabet,
+                    options.Steps
+                );
             });
 
-            services.PostConfigure<RouteOptions>(setup =>
-            {
-                setup.ConstraintMap.Add("hashids", typeof(HashidsRouteConstraint));
-            });
+            services.PostConfigure<RouteOptions>(options => options.ConstraintMap.Add("hashids", typeof(HashidsRouteConstraint)));
             return services;
         }
     }

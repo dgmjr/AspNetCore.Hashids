@@ -30,10 +30,7 @@ namespace AspNetCore.Hashids.Tests
         [Fact]
         public async Task hash_the_ids_of_the_dtos()
         {
-            var response = await fixture
-                .TestServer
-                .CreateRequest("api/customers")
-                .GetAsync();
+            var response = await fixture.TestServer.CreateRequest("api/customers").GetAsync();
 
             response.EnsureSuccessStatusCode();
 
@@ -42,7 +39,10 @@ namespace AspNetCore.Hashids.Tests
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
-            var customers = JsonSerializer.Deserialize<IEnumerable<CustomerDtoHashed>>(json, serializeOptions);
+            var customers = JsonSerializer.Deserialize<IEnumerable<CustomerDtoHashed>>(
+                json,
+                serializeOptions
+            );
             customers.First().Id.Should().Be("omrA3dl2");
             customers.Last().Id.Should().Be("gj1vzXlz");
         }
@@ -51,8 +51,7 @@ namespace AspNetCore.Hashids.Tests
         public async Task allow_to_retrieve_resources_by_hashid_when_exists()
         {
             const string Hashid = "omrA3dl2";
-            var response = await fixture
-                .TestServer
+            var response = await fixture.TestServer
                 .CreateRequest($"api/customers/{Hashid}")
                 .GetAsync();
 
@@ -71,8 +70,7 @@ namespace AspNetCore.Hashids.Tests
         public async Task not_fails_when_retrieve_resources_by_hashid_that_does_not_exists()
         {
             const string Hashid = "cmrA3dl2";
-            var response = await fixture
-                .TestServer
+            var response = await fixture.TestServer
                 .CreateRequest($"api/customers/{Hashid}")
                 .GetAsync();
 
@@ -88,8 +86,7 @@ namespace AspNetCore.Hashids.Tests
                 FirstName = "Test",
                 LastName = "Test"
             };
-            var response = await fixture
-                .TestServer
+            var response = await fixture.TestServer
                 .CreateRequest($"api/customers")
                 .WithJsonBody(dto)
                 .PostAsync();
@@ -107,8 +104,7 @@ namespace AspNetCore.Hashids.Tests
                 LastName = "Test"
             };
 
-            var response = await fixture
-                .TestServer
+            var response = await fixture.TestServer
                 .CreateRequest($"api/customers")
                 .WithJsonBody(dto)
                 .PostAsync();
@@ -160,7 +156,8 @@ namespace AspNetCore.Hashids.Tests
         [Route("{id:hashids}")]
         [Produces(MediaTypeNames.Application.Json)]
         public ActionResult<CustomerDto> Get(
-            [FromRoute][ModelBinder(typeof(HashidsModelBinder))] int id)
+            [FromRoute] [ModelBinder(typeof(HashidsModelBinder))] int id
+        )
         {
             return Ok(customers.SingleOrDefault(c => c.Id == id));
         }
@@ -170,6 +167,7 @@ namespace AspNetCore.Hashids.Tests
     {
         [JsonConverter(typeof(HashidsJsonConverter))]
         public int Id { get; set; }
+
         [JsonConverter(typeof(NullableHashidsJsonConverter))]
         public int? NullableId { get; set; }
         public int NonHashid { get; set; }

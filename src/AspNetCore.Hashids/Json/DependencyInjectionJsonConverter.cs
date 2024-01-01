@@ -13,7 +13,8 @@ namespace AspNetCore.Hashids.Json
 
         public DependencyInjectionJsonConverter(
             IHttpContextAccessor httpContextAccessor,
-            IServiceProvider serviceProvider)
+            IServiceProvider serviceProvider
+        )
         {
             this.httpContextAccessor = httpContextAccessor;
             this.serviceProvider = serviceProvider;
@@ -21,17 +22,22 @@ namespace AspNetCore.Hashids.Json
 
         public override bool CanConvert(Type typeToConvert) => false;
 
-        public override object Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => 
-            throw new NotImplementedException("Workaround to support DI in HashidsJsonConverter");
+        public override object Read(
+            ref Utf8JsonReader reader,
+            Type typeToConvert,
+            JsonSerializerOptions options
+        ) => throw new NotImplementedException("Workaround to support DI in HashidsJsonConverter");
 
-        public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options) =>
-            throw new NotImplementedException("Workaround to support DI in HashidsJsonConverter");
+        public override void Write(
+            Utf8JsonWriter writer,
+            object value,
+            JsonSerializerOptions options
+        ) => throw new NotImplementedException("Workaround to support DI in HashidsJsonConverter");
 
         public object GetService(Type serviceType)
         {
             //Use the request services to resolve scope dependencies, if not, user the root service provider
-            var services = httpContextAccessor.HttpContext?.RequestServices
-                ?? serviceProvider;
+            var services = httpContextAccessor.HttpContext?.RequestServices ?? serviceProvider;
 
             return services.GetService(serviceType);
         }

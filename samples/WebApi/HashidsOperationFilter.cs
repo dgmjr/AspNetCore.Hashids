@@ -9,9 +9,7 @@ namespace WebApi
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            var hashids = context
-                .ApiDescription
-                .ParameterDescriptions
+            var hashids = context.ApiDescription.ParameterDescriptions
                 .Where(x => x.ModelMetadata.BinderType == typeof(HashidsModelBinder))
                 .ToDictionary(d => d.Name, d => d);
 

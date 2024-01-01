@@ -10,7 +10,11 @@ namespace Microsoft.AspNetCore.TestHost
     [ExcludeFromCodeCoverage]
     public static class RequestBuilderExtensions
     {
-        public static RequestBuilder WithJsonBody<TEntity>(this RequestBuilder builder, TEntity entity) where TEntity : class
+        public static RequestBuilder WithJsonBody<TEntity>(
+            this RequestBuilder builder,
+            TEntity entity
+        )
+            where TEntity : class
         {
             return builder.And(configure =>
             {

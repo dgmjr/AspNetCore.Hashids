@@ -8,7 +8,11 @@ namespace AspNetCore.Hashids.Json
 {
     public class NullableHashidsJsonConverter : JsonConverter<int?>
     {
-        public override int? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override int? Read(
+            ref Utf8JsonReader reader,
+            Type typeToConvert,
+            JsonSerializerOptions options
+        )
         {
             if (reader.TokenType == JsonTokenType.String)
             {
@@ -29,7 +33,6 @@ namespace AspNetCore.Hashids.Json
 
             throw new JsonException();
         }
-
 
         public override void Write(Utf8JsonWriter writer, int? value, JsonSerializerOptions options)
         {

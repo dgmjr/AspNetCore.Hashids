@@ -11,13 +11,13 @@ namespace AspNetCore.Hashids.Options
         IServiceProvider serviceProvider
     ) : IConfigureOptions<JsonOptions>
     {
-        private readonly IHttpContextAccessor httpContextAccessor = httpContextAccessor;
-        private readonly IServiceProvider serviceProvider = serviceProvider;
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+        private readonly IServiceProvider _serviceProvider = serviceProvider;
 
         public void Configure(JsonOptions options)
         {
             options.JsonSerializerOptions.Converters.Add(
-                new DependencyInjectionJsonConverter(httpContextAccessor, serviceProvider)
+                new DependencyInjectionJsonConverter(_httpContextAccessor, _serviceProvider)
             );
         }
     }

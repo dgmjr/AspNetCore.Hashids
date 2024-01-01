@@ -5,14 +5,9 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Hashids.Mvc
 {
-    public class HashidsModelBinder : IModelBinder
+    public class HashidsModelBinder(IHashids hashids) : IModelBinder
     {
-        private readonly IHashids hashids;
-
-        public HashidsModelBinder(IHashids hashids)
-        {
-            this.hashids = hashids ?? throw new System.ArgumentNullException(nameof(hashids));
-        }
+        private readonly IHashids _hashids = hashids ?? throw new System.ArgumentNullException(nameof(hashids));
 
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
@@ -39,14 +34,14 @@ namespace AspNetCore.Hashids.Mvc
                 return Task.CompletedTask;
             }
 
-            var ids = hashids.Decode(value);
+            var ids = _hashids.Decode(value);
 
             if (ids.Length == 0)
             {
                 return Task.CompletedTask;
             }
 
-            bindingContext.Result = ModelBindingResult.Success(ids.First());
+            bindingContext.Result = ModelBindingResult.Success(ids[0]);
 
             return Task.CompletedTask;
         }

@@ -6,21 +6,22 @@ using System.Globalization;
 
 namespace AspNetCore.Hashids.Mvc
 {
-    public class HashidsRouteConstraint : IRouteConstraint
+    public class HashidsRouteConstraint(IHashids hashids) : IRouteConstraint
     {
-        private readonly IHashids hashids;
+        private readonly IHashids _hashids = hashids ?? throw new ArgumentNullException(nameof(hashids));
 
-        public HashidsRouteConstraint(IHashids hashids)
-        {
-            this.hashids = hashids ?? throw new ArgumentNullException(nameof(hashids));
-        }
-
-        public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
+        public bool Match(
+            HttpContext httpContext,
+            IRouter route,
+            string routeKey,
+            RouteValueDictionary values,
+            RouteDirection routeDirection
+        )
         {
             if (values.TryGetValue(routeKey, out var value))
             {
                 var hashid = Convert.ToString(value, CultureInfo.InvariantCulture);
-                var decode = hashids.Decode(hashid);
+                var decode = _hashids.Decode(hashid);
 
                 return decode.Length > 0;
             }

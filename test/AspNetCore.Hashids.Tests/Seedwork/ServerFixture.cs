@@ -25,8 +25,13 @@ namespace AspNetCore.Hashids.Tests.Seedwork
                 .ConfigureWebHost(builder =>
                 {
                     builder
-                    .ConfigureServices(services => services.AddSingleton<IServer>(serviceProvider => new TestServer(serviceProvider)))
-                    .UseStartup<TestStartup>();
+                        .ConfigureServices(
+                            services =>
+                                services.AddSingleton<IServer>(
+                                    serviceProvider => new TestServer(serviceProvider)
+                                )
+                        )
+                        .UseStartup<TestStartup>();
                 })
                 .Build();
 
@@ -61,10 +66,5 @@ namespace AspNetCore.Hashids.Tests.Seedwork
     }
 
     [CollectionDefinition(nameof(AspNetCoreServer))]
-    public class AspNetCoreServer
-        : ICollectionFixture<ServerFixture>
-    {
-
-    }
-
+    public class AspNetCoreServer : ICollectionFixture<ServerFixture> { }
 }
