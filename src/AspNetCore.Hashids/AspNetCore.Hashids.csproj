@@ -25,7 +25,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.1.38" Condition="$(IsTargetingNetStandard)" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" Condition="$(IsTargetingNetStandard)" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.1.21" Condition="$(IsTargetingNetStandard)" />
-    <PackageReference Include="System.Text.Json" Version="8.0.0" Condition="$(IsTargetingNetStandard)" />
+    <PackageReference Include="System.Text.Json" Version="8.0.4" Condition="$(IsTargetingNetStandard)" />
   </ItemGroup>
 
 </Project>
